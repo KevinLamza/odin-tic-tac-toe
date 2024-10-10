@@ -10,12 +10,13 @@ const game = (function () {
         const player2 = createPlayer("Player 2", "O");
 
         // game board is an array with 9 entries reflective of the 9 fields
-        // filled with null in the beginning, to suggest being empty on purpose
+        // filled with null in the beginning, to suggest being empty
         let board = [null, null, null, null, null, null, null, null, null];
 
         let currentTurnBy = player1;
+        let currentRound = 1;
 
-        return {player1, player2, board, currentTurnBy};
+        return {player1, player2, board, currentTurnBy, currentRound};
     }
 
     // player only needs name and marker; 
@@ -40,10 +41,11 @@ const game = (function () {
     function gameFlow() {
         winner = checkWinningCondition();
         
-        if (winner !== null) {
-            announceWinner(winner)
+        if (winner === gameStatus.player1 || winner === gameStatus.player2 || winner === "tie") {
+            announceResult(winner)
         } else {
             flipCurrentTurnBy();
+            gameStatus.currentRound++;
         }
     }
 
@@ -61,6 +63,8 @@ const game = (function () {
             || (b[0] === m && b[4] === m && b[8] === m) 
             || (b[2] === m && b[4] === m && b[6] === m)) {
                 return gameStatus.currentTurnBy;
+        } else if (gameStatus.currentRound === 9) {
+            return "tie"
         } else {
                 return null;
         }
@@ -74,8 +78,8 @@ const game = (function () {
         }
     }
 
-    function announceWinner() {
-        console.log("Announce Winner");
+    function announceResult(result) {
+        console.log(result);
     }
 
     function resetGame() {
