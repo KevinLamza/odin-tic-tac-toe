@@ -10,7 +10,7 @@ const game = (function () {
         const player2 = createPlayer("Player 2", "O");
 
         // game board is an array with 9 entries reflective of the 9 fields
-        // filled with null in the beginning, to suggest being empty
+        // filled with emptry strings in the beginning; previously null, but empty strings easier to handle for render()
         let board = ["", "", "", "", "", "", "", "", ""];
 
         let currentTurnBy = player1;
@@ -21,10 +21,12 @@ const game = (function () {
     }
 
     function render() {
+        // DOM should be fetched only one time;
         const board = [];
         for (let i = 0; i < 10; i++) {
             board[i] = document.getElementById(i);
         }
+        // renderBoard() will be run repeatedly, therefore this one will be returned
         function renderBoard() {
             for (let i = 0; i < 9; i++) {
                 board[i].textContent = gameStatus.board[i];
@@ -48,6 +50,7 @@ const game = (function () {
             console.log(gameStatus.board);
             console.log("Marker placed");
             display.renderBoard();
+            // gameFlow will only start, when a marker can be placed successfully
             gameFlow();
         }
         return;
@@ -66,6 +69,7 @@ const game = (function () {
 
     function checkWinningCondition() {
         console.log("Check winning condition");
+        // renamed just to have less work typing out the winning conditions
         let m = gameStatus.currentTurnBy.marker;
         let b = gameStatus.board;
         // check horizontal, vertical and diagonal winning conditions
