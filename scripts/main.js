@@ -1,4 +1,7 @@
-
+////////////// GAME BOARD COORDINATES
+/// 1 2 3 
+/// 4 5 6
+/// 7 8 9
 
 // whole game is tucked away in a IIFE
 const game = (function () {
@@ -6,13 +9,13 @@ const game = (function () {
         const player1 = createPlayer("Player 1", "X");
         const player2 = createPlayer("Player 2", "O");
 
-        // gameboard is an array with 9 entries reflective of the 9 fields
+        // game board is an array with 9 entries reflective of the 9 fields
         // filled with null in the beginning, to suggest being empty on purpose
-        const board = [null, null, null, null, null, null, null, null, null];
+        let board = [null, null, null, null, null, null, null, null, null];
 
-        const lastTurnBy = null;
+        let nextTurnBy = player1;
 
-        return {player1, player2, board, lastTurnBy};
+        return {player1, player2, board, nextTurnBy};
     }
 
     // player only needs name and marker; 
@@ -20,9 +23,26 @@ const game = (function () {
         return {name, marker};
     }
 
-    function placeMarker() {
-        console.log("Marker placed");
-
+    function placeMarker(position) {
+        console.log("Evaluating marker");
+        if (gameStatus.board[position] !== null) {
+            console.log("Field already blocked!")
+            return;
+        } else {
+            gameStatus.board[position] = gameStatus.nextTurnBy.marker;
+            console.log(gameStatus.board);
+            console.log("Marker placed");
+        }
+        return;
+        // if (gameStatus.board[position] === null) {
+        //     gameStatus.board[position] = gameStatus.nextTurnBy.marker;
+        //     console.log(gameStatus.board);
+        //     console.log("Marker placed")
+        // }
+        // else {
+        //     console.log("Field already blocked");
+        // }
+        // return gameStatus;
     }
 
     function gameFlow() {
