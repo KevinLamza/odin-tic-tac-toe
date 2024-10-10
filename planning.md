@@ -41,3 +41,9 @@ SPECS FROM ODIN
 - single instance of gameboard; single instance of displayController (render)
     - wrap into IIFE module, so only one instance possible
 - as little global code as possible, everything in factories
+
+
+DISPLAY CONTROLLER
+- queryselect für jede div, als property (node) im object eingespeichert
+- standardmäßig leer
+- render funktion: hängt inhalt des arrays als textContent an die entsprechende node an

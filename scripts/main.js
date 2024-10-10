@@ -11,12 +11,26 @@ const game = (function () {
 
         // game board is an array with 9 entries reflective of the 9 fields
         // filled with null in the beginning, to suggest being empty
-        let board = [null, null, null, null, null, null, null, null, null];
+        let board = ["", "", "", "", "", "", "", "", ""];
 
         let currentTurnBy = player1;
         let currentRound = 1;
+        let winner = null;
 
-        return {player1, player2, board, currentTurnBy, currentRound};
+        return {player1, player2, board, currentTurnBy, currentRound, winner};
+    }
+
+    function render() {
+        const board = [];
+        for (let i = 0; i < 10; i++) {
+            board[i] = document.getElementById(i);
+        }
+        function renderBoard() {
+            for (let i = 0; i < 9; i++) {
+                board[i].textContent = gameStatus.board[i];
+            }
+        }
+        return {renderBoard};
     }
 
     // player only needs name and marker; 
@@ -26,23 +40,24 @@ const game = (function () {
 
     function placeMarker(position) {
         console.log("Evaluating marker");
-        if (gameStatus.board[position] !== null) {
+        if (gameStatus.board[position] !== "") {
             console.log("Field already blocked!")
             return;
         } else {
             gameStatus.board[position] = gameStatus.currentTurnBy.marker;
             console.log(gameStatus.board);
             console.log("Marker placed");
+            display.renderBoard();
             gameFlow();
         }
         return;
     }
 
     function gameFlow() {
-        winner = checkWinningCondition();
+        gameStatus.winner = checkWinningCondition();
         
-        if (winner === gameStatus.player1 || winner === gameStatus.player2 || winner === "tie") {
-            announceResult(winner)
+        if (gameStatus.winner === gameStatus.player1 || gameStatus.winner === gameStatus.player2 || gameStatus.winner === "tie") {
+            announceResult(gameStatus.winner)
         } else {
             flipCurrentTurnBy();
             gameStatus.currentRound++;
@@ -84,10 +99,10 @@ const game = (function () {
 
     function resetGame() {
         console.log("Reset game");
-    }
-    
+    }    
     
     let gameStatus = init();
+    let display = render();
     
     return { 
         placeMarker, resetGame
