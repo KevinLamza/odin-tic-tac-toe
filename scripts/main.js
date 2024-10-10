@@ -23,6 +23,8 @@ const game = (function () {
     function render() {
         // DOM should be fetched only one time;
         const board = [];
+        const dialog = document.querySelector("dialog");
+        const announcement = document.querySelector(".announcement");
         for (let i = 0; i < 10; i++) {
             board[i] = document.getElementById(i);
         }
@@ -30,9 +32,14 @@ const game = (function () {
         function renderBoard() {
             for (let i = 0; i < 9; i++) {
                 board[i].textContent = gameStatus.board[i];
+                if (dialog.open) dialog.close();
             }
         }
-        return {renderBoard};
+        function renderWinner(player) {
+            dialog.showModal();
+            announcement.textContent = player.name + " won the game!";
+        }
+        return {renderBoard, renderWinner};
     }
 
     // player only needs name and marker; 
@@ -41,17 +48,21 @@ const game = (function () {
     }
 
     function placeMarker(position) {
-        console.log("Evaluating marker");
-        if (gameStatus.board[position] !== "") {
-            console.log("Field already blocked!")
-            return;
+        if (gameStatus.winner === null) {
+            console.log("Evaluating marker");
+            if (gameStatus.board[position] !== "") {
+                console.log("Field already blocked!")
+                return;
+            } else {
+                gameStatus.board[position] = gameStatus.currentTurnBy.marker;
+                console.log(gameStatus.board);
+                console.log("Marker placed");
+                display.renderBoard();
+                // gameFlow will only start, when a marker can be placed successfully
+                gameFlow();
+            }
         } else {
-            gameStatus.board[position] = gameStatus.currentTurnBy.marker;
-            console.log(gameStatus.board);
-            console.log("Marker placed");
-            display.renderBoard();
-            // gameFlow will only start, when a marker can be placed successfully
-            gameFlow();
+            console.log("Game finished, you can't place more markers!")
         }
         return;
     }
@@ -61,6 +72,7 @@ const game = (function () {
         
         if (gameStatus.winner === gameStatus.player1 || gameStatus.winner === gameStatus.player2 || gameStatus.winner === "tie") {
             announceResult(gameStatus.winner)
+            display.renderWinner(gameStatus.winner);
         } else {
             flipCurrentTurnBy();
             gameStatus.currentRound++;
