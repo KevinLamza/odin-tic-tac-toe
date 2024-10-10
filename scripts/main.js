@@ -10,7 +10,9 @@ const game = (function () {
         // filled with null in the beginning, to suggest being empty on purpose
         const board = [null, null, null, null, null, null, null, null, null];
 
-        return {player1, player2, board};
+        const lastTurnBy = null;
+
+        return {player1, player2, board, lastTurnBy};
     }
 
     // player only needs name and marker; 
@@ -20,6 +22,7 @@ const game = (function () {
 
     function placeMarker() {
         console.log("Marker placed");
+
     }
 
     function gameFlow() {
@@ -28,25 +31,25 @@ const game = (function () {
         announceWinner();
     }
 
-    function updateBoard() {
-        console.log("Update board");
-    }
+            function updateBoard() {
+                console.log("Update board");
+            }
 
-    function checkWinningCondition() {
-        console.log("Check winning condition");
-    }
+            function checkWinningCondition() {
+                console.log("Check winning condition");
+            }
 
-    function announceWinner() {
-        console.log("Announce Winner");
-    }
+            function announceWinner() {
+                console.log("Announce Winner");
+            }
 
     function resetGame() {
         console.log("Reset game");
     }
-
-
+    
+    
     let gameStatus = init();
-
+    
     return { 
         placeMarker, resetGame
     };
