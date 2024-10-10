@@ -22,6 +22,24 @@ const game = (function () {
         console.log("Marker placed");
     }
 
+    function gameFlow() {
+        updateBoard();
+        checkWinningCondition();
+        announceWinner();
+    }
+
+    function updateBoard() {
+        console.log("Update board");
+    }
+
+    function checkWinningCondition() {
+        console.log("Check winning condition");
+    }
+
+    function announceWinner() {
+        console.log("Announce Winner");
+    }
+
     function resetGame() {
         console.log("Reset game");
     }
