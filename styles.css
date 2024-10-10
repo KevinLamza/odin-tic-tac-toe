@@ -22,3 +22,18 @@
     height: 100%;
     background-color: lightgreen;
 }
+
+button.resetButton, button.newGameButton {
+    margin-top: 20px;
+}
+
+button.newGameButton:focus {
+    outline:none;
+}
+
+.dialogContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

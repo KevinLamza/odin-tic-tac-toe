@@ -20,24 +20,31 @@ const game = (function () {
         return {player1, player2, board, currentTurnBy, currentRound, winner};
     }
 
-    function render() {
-        // DOM should be fetched only one time;
-        const board = [];
+    function cacheDOM() {
+        // const board = [];
         const dialog = document.querySelector("dialog");
         const announcement = document.querySelector(".announcement");
-        for (let i = 0; i < 10; i++) {
-            board[i] = document.getElementById(i);
+        const resetButton = document.querySelector(".resetButton");
+        const newGameButton = document.querySelector(".newGameButton");
+        const field = [];
+        for (i = 0; i < 9; i++) {
+            field[i] = document.getElementById("field" + i.toString());
         }
-        // renderBoard() will be run repeatedly, therefore this one will be returned
+
+        return {dialog, announcement, resetButton, newGameButton, field}
+    }
+
+    function render() {
         function renderBoard() {
             for (let i = 0; i < 9; i++) {
-                board[i].textContent = gameStatus.board[i];
-                if (dialog.open) dialog.close();
+                console.log(DOM.field);
+                DOM.field[i].textContent = gameStatus.board[i];
+                if (DOM.dialog.open) DOM.dialog.close();
             }
         }
         function renderWinner(player) {
-            dialog.showModal();
-            announcement.textContent = player.name + " won the game!";
+            DOM.dialog.showModal();
+            DOM.announcement.textContent = player.name + " won the game!";
         }
         return {renderBoard, renderWinner};
     }
@@ -122,9 +129,24 @@ const game = (function () {
         gameStatus.winner = null;
         display.renderBoard();
     }    
+
+    function bindEvents() {
+        DOM.resetButton.addEventListener("click", resetGame);
+        DOM.newGameButton.addEventListener("click", resetGame);
+
+        document.addEventListener('click', function (event) {
+            for (let i = 0; i < 9; i++) {
+                if (event.target.matches('#field' + i)) {
+                    placeMarker(i);
+                }
+            }
+        }, false);
+    }
     
+    let DOM = cacheDOM();
     let gameStatus = init();
     let display = render();
+    bindEvents();
     
     return { 
         placeMarker, resetGame
