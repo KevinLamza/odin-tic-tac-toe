@@ -99,6 +99,12 @@ const game = (function () {
 
     function resetGame() {
         console.log("Reset game");
+        gameStatus.board = ["", "", "", "", "", "", "", "", ""];
+
+        gameStatus.currentTurnBy = gameStatus.player1;
+        gameStatus.currentRound = 1;
+        gameStatus.winner = null;
+        display.renderBoard();
     }    
     
     let gameStatus = init();
