@@ -38,45 +38,45 @@ const game = (function () {
     }
 
     function gameFlow() {
-        // updateBoard();
         winner = checkWinningCondition();
+        
         if (winner !== null) {
             announceWinner(winner)
         } else {
-            if (gameStatus.currentTurnBy === gameStatus.player1) {
-                gameStatus.currentTurnBy = gameStatus.player2;
-            } else if (gameStatus.currentTurnBy === gameStatus.player2) {
-                gameStatus.currentTurnBy = gameStatus.player1
-            }
+            flipCurrentTurnBy();
         }
     }
 
-            // function updateBoard() {
-            //     console.log("Update board");
-            // }
+    function checkWinningCondition() {
+        console.log("Check winning condition");
+        let m = gameStatus.currentTurnBy.marker;
+        let b = gameStatus.board;
+        // check horizontal, vertical and diagonal winning conditions
+        if (   (b[0] === m && b[1] === m && b[2] === m) 
+            || (b[3] === m && b[4] === m && b[5] === m) 
+            || (b[6] === m && b[7] === m && b[8] === m) 
+            || (b[0] === m && b[3] === m && b[6] === m)
+            || (b[1] === m && b[4] === m && b[7] === m) 
+            || (b[2] === m && b[5] === m && b[8] === m) 
+            || (b[0] === m && b[4] === m && b[8] === m) 
+            || (b[2] === m && b[4] === m && b[6] === m)) {
+                return gameStatus.currentTurnBy;
+        } else {
+                return null;
+        }
+    }
 
-            function checkWinningCondition() {
-                console.log("Check winning condition");
-                let m = gameStatus.currentTurnBy.marker;
-                let b = gameStatus.board;
-                // check horizontal, vertical and diagonal winning conditions
-                if (   (b[0] === m && b[1] === m && b[2] === m) 
-                    || (b[3] === m && b[4] === m && b[5] === m) 
-                    || (b[6] === m && b[7] === m && b[8] === m) 
-                    || (b[0] === m && b[3] === m && b[6] === m)
-                    || (b[1] === m && b[4] === m && b[7] === m) 
-                    || (b[2] === m && b[5] === m && b[8] === m) 
-                    || (b[0] === m && b[4] === m && b[8] === m) 
-                    || (b[2] === m && b[4] === m && b[6] === m)) {
-                        return gameStatus.currentTurnBy;
-                } else {
-                        return null;
-                }
-            }
+    function flipCurrentTurnBy() {
+        if (gameStatus.currentTurnBy === gameStatus.player1) {
+            gameStatus.currentTurnBy = gameStatus.player2;
+        } else if (gameStatus.currentTurnBy === gameStatus.player2) {
+            gameStatus.currentTurnBy = gameStatus.player1
+        }
+    }
 
-            function announceWinner() {
-                console.log("Announce Winner");
-            }
+    function announceWinner() {
+        console.log("Announce Winner");
+    }
 
     function resetGame() {
         console.log("Reset game");
