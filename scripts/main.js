@@ -44,7 +44,12 @@ const game = (function () {
         }
         function renderWinner(player) {
             DOM.dialog.showModal();
-            DOM.announcement.textContent = player.name + " won the game!";
+            if (player === "tie") {
+                DOM.announcement.textContent = "It's a tie!"
+            }
+            else {
+                DOM.announcement.textContent = player.name + " won the game!";
+            }
         }
         return {renderBoard, renderWinner};
     }
